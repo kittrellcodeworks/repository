@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="employee" version="1.5">
+    <types>
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+        <fieldType name="long" class="solr.LongPointField" docValues="true"/>
+        <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.WordDelimiterGraphFilterFactory" preserveOriginal="1" generateWordParts="0" generateNumberParts="0" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.WordDelimiterGraphFilterFactory" preserveOriginal="1" generateWordParts="0" generateNumberParts="0" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+        </fieldType>
+    </types>
+
+
+    <fields>
+        <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
+        <field name="id" type="string" indexed="true" stored="true" required="true" docValues="false"/>
+        <field name="name" type="text" indexed="true" stored="true" required="true" docValues="false"/>
+        <field name="manager" type="string" indexed="true" stored="true" required="false" docValues="false"/>
+    </fields>
+
+    <!-- Field to use to determine and enforce document uniqueness.
+       Unless this field is marked with required="false", it will be a required field
+    -->
+    <uniqueKey>id</uniqueKey>
+
+    <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
+    <!--<solrQueryParser defaultOperator="AND"/>-->
+</schema>
+
